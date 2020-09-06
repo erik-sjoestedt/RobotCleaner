@@ -47,5 +47,26 @@ namespace RobotCleanerTests
             Assert.AreEqual(moveCommands[1].GetDirection(), Direction.S);
             Assert.AreEqual(moveCommands[1].GetNumSteps(), 2);
         }
+
+        [Test]
+        public void TestParseFourMoveCommands()
+        {
+            string[] args = { "4", "-4 -4", "N 2", "E 4", "S 2", "W 4",};
+
+            Input input = new Input(args);
+            List<MoveCommand> moveCommands = input.GetMoveCommands();
+
+            Assert.AreEqual(moveCommands[0].GetDirection(), Direction.N);
+            Assert.AreEqual(moveCommands[0].GetNumSteps(), 2);
+
+            Assert.AreEqual(moveCommands[1].GetDirection(), Direction.E);
+            Assert.AreEqual(moveCommands[1].GetNumSteps(), 4);
+
+            Assert.AreEqual(moveCommands[2].GetDirection(), Direction.S);
+            Assert.AreEqual(moveCommands[2].GetNumSteps(), 2);
+
+            Assert.AreEqual(moveCommands[3].GetDirection(), Direction.W);
+            Assert.AreEqual(moveCommands[3].GetNumSteps(), 4);
+        }
     }
 }

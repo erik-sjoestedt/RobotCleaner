@@ -34,7 +34,7 @@ namespace RobotCleaner
                 int numSteps = Int32.Parse(moveCommandArgs[1]);
                 var direction = (moveCommandArgs[0]) switch
                 {
-                    "N" => Direction.E,
+                    "N" => Direction.N,
                     "W" => Direction.W,
                     "S" => Direction.S,
                     "E" => Direction.E,
