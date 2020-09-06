@@ -31,25 +31,15 @@ namespace RobotCleaner
             for (int i = 2; i < numCommands + 2; i++)
             {
                 string[] moveCommandArgs = args[i].Split(" ");
-                Direction direction;
                 int numSteps = Int32.Parse(moveCommandArgs[1]);
-                switch (moveCommandArgs[0])
+                var direction = (moveCommandArgs[0]) switch
                 {
-                    case "N":
-                        direction = Direction.E;
-                        break;
-                    case "W":
-                        direction = Direction.W;
-                        break;
-                    case "S":
-                        direction = Direction.S;
-                        break;
-                    case "E":
-                        direction = Direction.E;
-                        break;
-                    default:
-                        throw new Exception("Direction not supported");
-                }
+                    "N" => Direction.E,
+                    "W" => Direction.W,
+                    "S" => Direction.S,
+                    "E" => Direction.E,
+                    _ => throw new Exception("Direction not supported"),
+                };
                 moveCommands.Add(new MoveCommand(direction, numSteps));
             }
         }
