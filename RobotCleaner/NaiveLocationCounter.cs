@@ -10,49 +10,38 @@ namespace RobotCleaner
     {
         private readonly Dictionary<string, int> locations = new Dictionary<string, int>();
 
-        public NaiveLocationCounter(int startX, int startY, MoveCommand[] moves)
+        public NaiveLocationCounter(int startX, int startY, List<MoveCommand> moves)
         {
             this.LoadLocations(startX, startY, moves);
         }
 
-        private void LoadLocations(int startX, int startY, MoveCommand[] moves)
+        private void LoadLocations(int startX, int startY, List<MoveCommand> moves)
         {
             int x = startX;
             int y = startY;
-            int newPos = x;
-            bool horizontal = true;
             int steps;
-            locations.TryAdd(LocationString(x, y), 1);
-            for (int i = 0; i < moves.Length; i++)
+            Visit(x, y);
+            for (int i = 0; i < moves.Count; i++)
             {
                 steps = moves[i].GetNumSteps();
                 switch (moves[i].GetDirection())
                 {
                     case Direction.N:
-                        newPos = y + steps;
-                        horizontal = false;
+                        MoveVertically(x, y, y + steps);
+                        y += steps;
                         break;
                     case Direction.W:
-                        newPos = x - steps;
-                        horizontal = true;
+                        MoveHorizontally(x - steps, y, x);
+                        x -= steps;
                         break;
                     case Direction.S:
-                        newPos = y - steps;
-                        horizontal = false;
+                        MoveVertically(x, y - steps, y);
+                        y -= steps;
                         break;
                     case Direction.E:
-                        newPos = x + steps;
-                        horizontal = true;
+                        MoveHorizontally(x, y, x + steps);
+                        x += steps;
                         break;
-                }
-                if (horizontal)
-                {
-                    MoveHorizontally(x, y, newPos);
-                    x = newPos;
-                } else
-                {
-                    MoveVertically(x, y, newPos);
-                    y = newPos;
                 }
             }
         }
@@ -61,15 +50,20 @@ namespace RobotCleaner
         {
             for (; x <= newX; x++)
             {
-                locations.TryAdd(LocationString(x, y), 1);
+                Visit(x, y);
             }
         }
         private void MoveVertically(int x, int y, int newY)
         {
             for (; y <= newY; y++)
             {
-                locations.TryAdd(LocationString(x, y), 1);
+                Visit(x, y);
             }
+        }
+
+        private void Visit(int x, int y)
+        {
+            locations.TryAdd(LocationString(x, y), 1);
         }
 
         private string LocationString(int x, int y)

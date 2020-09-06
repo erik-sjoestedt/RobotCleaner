@@ -11,7 +11,7 @@ namespace RobotCleanerTests
         [Test]
         public void TestCountThreeDistinctMoves()
         {
-            MoveCommand[] moves =
+            List<MoveCommand> moves = new List<MoveCommand>
             {
                 new MoveCommand(Direction.N, 2),
                 new MoveCommand(Direction.S, 2),
@@ -20,6 +20,22 @@ namespace RobotCleanerTests
             NaiveLocationCounter counter = new NaiveLocationCounter(0, 0, moves);
 
             Assert.AreEqual(3, counter.CountDistinct());
+        }
+
+        [Test]
+        public void TestCountFourDistinctMoves()
+        {
+            List<MoveCommand> moves = new List<MoveCommand>
+            {
+                new MoveCommand(Direction.N, 2),
+                new MoveCommand(Direction.E, 4),
+                new MoveCommand(Direction.S, 2),
+                new MoveCommand(Direction.W, 4),
+            };
+
+            NaiveLocationCounter counter = new NaiveLocationCounter(4, -4, moves);
+
+            Assert.AreEqual(12, counter.CountDistinct());
         }
     }
 }
