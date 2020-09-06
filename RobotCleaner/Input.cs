@@ -12,7 +12,11 @@ namespace RobotCleaner
 
         public Input(string[] args)
         {
-            string startPos = args[1];
+            parseStartPosition(args[1]);
+        }
+
+        private void parseStartPosition(string startPos)
+        {
             string[] startPositions = startPos.Split(" ");
             startX = Int32.Parse(startPositions[0]);
             startY = Int32.Parse(startPositions[1]);
